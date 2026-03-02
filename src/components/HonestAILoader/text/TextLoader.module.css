@@ -1,0 +1,41 @@
+.text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+  text-align: center;
+  max-width: 300px;
+  min-height: 1.5em;
+  line-height: 1.5;
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
+  transition-duration: var(--transition-time, 300ms);
+}
+
+/* ── Fade transition ── */
+.fade_in {
+  opacity: 0;
+}
+
+.fade_visible {
+  opacity: 1;
+}
+
+.fade_out {
+  opacity: 0;
+}
+
+/* ── Scroll transition ── */
+.scroll_in {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.scroll_visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll_out {
+  opacity: 0;
+  transform: translateY(-10px);
+}

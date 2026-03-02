@@ -1,0 +1,32 @@
+.track {
+  stroke: #e5e7eb;
+}
+
+.arc {
+  stroke: #6366f1;
+}
+
+.progressArc {
+  stroke: #6366f1;
+  transition: stroke-dashoffset 0.4s ease;
+}
+
+/* Spinner: rotate the whole SVG element */
+.spinnerSvg {
+  display: block;
+  animation: spin 1.2s linear infinite;
+  transform-origin: 50px 50px;
+}
+
+.progressSvg {
+  display: block;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
