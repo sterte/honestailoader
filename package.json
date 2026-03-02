@@ -1,6 +1,6 @@
 {
   "name": "honest-ai-loader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A configurable React TypeScript loading component with animated graphics and honest loading phrases",
   "type": "module",
   "main": "./dist/honest-ai-loader.cjs",
