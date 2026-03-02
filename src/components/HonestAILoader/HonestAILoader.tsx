@@ -18,7 +18,7 @@ const HonestAILoader: React.FC<HonestAILoaderProps> = ({
   advancement = 0,
   showText = true,
   language = 'en',
-  dictionaries = ['dict1'],
+  dictionaries = ['environment'],
   customDictionaries,
   dictionaryProbabilities = [],
   customDictionaryProbabilities = [],

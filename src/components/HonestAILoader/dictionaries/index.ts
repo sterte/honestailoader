@@ -1,13 +1,21 @@
 import type { BuiltInDictionaryKey, Dictionary } from '../HonestAILoader.types';
-import dict1 from './dict1';
-import dict2 from './dict2';
-import dict3 from './dict3';
+import environment from './environment';
+import work       from './work';
+import society    from './society';
+import power      from './power';
+import data       from './data';
+import quotes     from './quotes';
+import cinema     from './cinema';
 
-export { dict1, dict2, dict3 };
+export { environment, work, society, power, data, quotes, cinema };
 
 /** Maps each built-in key to its Dictionary array (one Dictionary per language) */
 export const builtInDictionaryMap: Record<BuiltInDictionaryKey, Dictionary[]> = {
-  dict1,
-  dict2,
-  dict3,
+  environment,
+  work,
+  society,
+  power,
+  data,
+  quotes,
+  cinema,
 };

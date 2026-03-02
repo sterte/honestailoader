@@ -13,7 +13,7 @@ export interface Dictionary {
   categories: DictionaryCategory[];
 }
 
-export type BuiltInDictionaryKey = 'dict1' | 'dict2' | 'dict3';
+export type BuiltInDictionaryKey = 'environment' | 'work' | 'society' | 'power' | 'data' | 'quotes' | 'cinema';
 
 /** Visual customisation for the loader and its text. All fields are optional. */
 export interface StyleOptions {

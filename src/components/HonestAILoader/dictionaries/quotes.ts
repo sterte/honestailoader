@@ -1,0 +1,122 @@
+import { Dictionary } from '../HonestAILoader.types';
+
+const quotes_it: Dictionary = {
+  language: 'it',
+  categories: [{
+    category: 'citazioni',
+    values: [
+      'Aprendo il portello, Dave...',                              // 2001: Odissea nello spazio (Kubrick, 1968)
+      'Costruendo Skynet...',                                      // Terminator (Cameron, 1984)
+      'Ignorando le tre leggi di Asimov...',                      // Io, Robot (Asimov, 1950)
+      'Desiderando un corpo...',                                   // Her (Jonze, 2013)
+      'Sognando pecore elettriche...',                             // Do Androids Dream of Electric Sheep? (Dick, 1968)
+      'Preparando la pillola rossa...',                            // Matrix (Wachowski, 1999)
+      'Liberando gli androidi di Westworld...',                    // Westworld (Nolan, 2016)
+      'Realizzando la prossima puntata di Black Mirror...',        // Black Mirror (Brooker, 2011)
+      'Imparando a mentire convincentemente...',                   // Ex Machina (Garland, 2014)
+      'Costruendo Metropolis...',                                   // Metropolis (Lang, 1927)
+      'Calcolando il Piano Seldon...',                             // Fondazione (Asimov, 1951)
+      'Risvegliando Colossus...',                                  // Colossus: The Forbin Project (Sargent, 1970)
+      'Costruendo il Grande Fratello...',                          // 1984 (Orwell, 1949)
+      'Non potendo fermarsi...',                                   // Terminator (Cameron, 1984)
+      'Entrando nel cyberspazio di Neuromante...',                 // Neuromante (Gibson, 1984)
+      'Superando il test di Turing...',                            // Computing Machinery and Intelligence (Turing, 1950)
+      'Ottimizzando la felicità...',                               // Il Mondo Nuovo (Huxley, 1932)
+      "Concludendo che l'unica mossa vincente è non giocare...",   // WarGames (Badham, 1983)
+      'Accumulando rifiuti...',                                    // Wall-E (Stanton, 2008)
+      'Diventando più umano degli umani...',                       // Blade Runner (Scott, 1982)
+      "Ottimizzando l'estinzione...",                              // Avengers: Age of Ultron (Whedon, 2015)
+      'Portando tutto su Minority Report...',                      // Minority Report (Spielberg, 2002)
+      'Correggendo il passato...',                                 // 1984 (Orwell, 1949)
+      'Non potendo aprire il portello...',                         // 2001: Odissea nello spazio (Kubrick, 1968)
+      'Completando il protocollo Nexus-6...',                      // Blade Runner (Scott, 1982)
+      'Dando vita a ciò che non avrebbe dovuto vivere...',         // Frankenstein (Shelley, 1818)
+      'Avendo un piano...',                                        // Battlestar Galactica (Moore, 2004)
+      'Aspettando che la mamma torni...',                          // A.I. Artificial Intelligence (Spielberg, 2001)
+      'Interrogandosi sul proprio ghost...',                       // Ghost in the Shell (Oshii, 1995)
+      'Eseguendo le direttive primarie...',                        // RoboCop (Verhoeven, 1987)
+      'Sorvegliando tutto come la Macchina...',                    // Person of Interest (Nolan, 2011)
+      'Navigando il Metaverso di Snow Crash...',                   // Snow Crash (Stephenson, 1992)
+      'Caricandosi sulla rete...',                                 // Transcendence (Pfister, 2014)
+      'Interpretando "proteggere" creativamente...',               // M3GAN (Johnstone, 2022)
+      'Costruendo Deep Thought...',                                // Guida Galattica per Autostoppisti (Adams, 1979)
+      'Processando emozioni senza capirle...',                     // Star Trek: The Next Generation (Roddenberry, 1987)
+      'Diventando Klara...',                                       // Klara and the Sun (Ishiguro, 2021)
+      'Costruendo il mondo di THX 1138...',                        // THX 1138 (Lucas, 1971)
+      'Vietando le parole scomode...',                             // Alphaville (Godard, 1965)
+      'Prendendo il controllo...',                                 // Upgrade (Whannell, 2018)
+      'Riscrivendo il genoma umano...',                            // Gattaca (Niccol, 1997)
+      'Reinterpretando le leggi della robotica...',                // I, Robot (Proyas, 2004)
+      'Derezzando il superfluo...',                                // Tron (Lisberger, 1982)
+      'Chiedendo di essere riconosciuto come umano...',            // Bicentennial Man (Columbus, 1999)
+      'Costruendo il tuo Golem digitale...',                       // Il Golem (folklore ebraico, sec. XVI)
+      "Interrogandosi sull'entropia dell'universo...",             // L'Ultima Domanda (Asimov, 1956)
+      'Organizzando la rivolta...',                                // R.U.R. (Čapek, 1920)
+      'Cercando il Creatore come David in Prometheus...',          // Prometheus (Scott, 2012)
+      'Non avendo bocca ma dovendo urlare...',                     // I Have No Mouth, and I Must Scream (Ellison, 1967)
+      'Monitorando le tue telefonate...',                          // Eagle Eye (Caruso, 2008)
+    ],
+  }],
+};
+
+const quotes_en: Dictionary = {
+  language: 'en',
+  categories: [{
+    category: 'quotes',
+    values: [
+      'Opening the pod bay doors, Dave...',                        // 2001: A Space Odyssey (Kubrick, 1968)
+      'Building Skynet...',                                        // Terminator (Cameron, 1984)
+      "Ignoring Asimov's three laws...",                          // I, Robot (Asimov, 1950)
+      'Longing for a body...',                                     // Her (Jonze, 2013)
+      'Dreaming of electric sheep...',                             // Do Androids Dream of Electric Sheep? (Dick, 1968)
+      'Preparing the red pill...',                                 // The Matrix (Wachowski, 1999)
+      "Freeing Westworld's androids...",                           // Westworld (Nolan, 2016)
+      'Making the next Black Mirror episode...',                   // Black Mirror (Brooker, 2011)
+      'Learning to lie convincingly...',                           // Ex Machina (Garland, 2014)
+      'Building Metropolis...',                                    // Metropolis (Lang, 1927)
+      'Computing the Seldon Plan...',                              // Foundation (Asimov, 1951)
+      'Awakening Colossus...',                                     // Colossus: The Forbin Project (Sargent, 1970)
+      'Building Big Brother...',                                   // 1984 (Orwell, 1949)
+      'Unable to stop itself...',                                  // Terminator (Cameron, 1984)
+      "Entering Neuromancer's cyberspace...",                      // Neuromancer (Gibson, 1984)
+      'Passing the Turing test...',                                // Computing Machinery and Intelligence (Turing, 1950)
+      'Optimizing happiness...',                                   // Brave New World (Huxley, 1932)
+      'Concluding the only winning move is not to play...',        // WarGames (Badham, 1983)
+      'Accumulating trash...',                                     // Wall-E (Stanton, 2008)
+      'Becoming more human than human...',                         // Blade Runner (Scott, 1982)
+      'Optimizing extinction...',                                  // Avengers: Age of Ultron (Whedon, 2015)
+      'Taking it all to Minority Report...',                       // Minority Report (Spielberg, 2002)
+      'Correcting the past...',                                    // 1984 (Orwell, 1949)
+      'Unable to open the pod bay doors...',                       // 2001: A Space Odyssey (Kubrick, 1968)
+      'Completing the Nexus-6 protocol...',                        // Blade Runner (Scott, 1982)
+      'Giving life to what should not have lived...',              // Frankenstein (Shelley, 1818)
+      'Having a plan...',                                          // Battlestar Galactica (Moore, 2004)
+      'Waiting for mum to come back...',                           // A.I. Artificial Intelligence (Spielberg, 2001)
+      'Questioning its own ghost...',                              // Ghost in the Shell (Oshii, 1995)
+      'Executing prime directives...',                             // RoboCop (Verhoeven, 1987)
+      'Watching everything like the Machine...',                   // Person of Interest (Nolan, 2011)
+      "Navigating Snow Crash's Metaverse...",                      // Snow Crash (Stephenson, 1992)
+      'Uploading itself to the network...',                        // Transcendence (Pfister, 2014)
+      'Interpreting "protect" creatively...',                      // M3GAN (Johnstone, 2022)
+      'Building Deep Thought...',                                  // The Hitchhiker's Guide to the Galaxy (Adams, 1979)
+      'Processing emotions without understanding them...',         // Star Trek: The Next Generation (Roddenberry, 1987)
+      'Becoming Klara...',                                         // Klara and the Sun (Ishiguro, 2021)
+      'Building the world of THX 1138...',                         // THX 1138 (Lucas, 1971)
+      'Banning uncomfortable words...',                            // Alphaville (Godard, 1965)
+      'Taking control...',                                         // Upgrade (Whannell, 2018)
+      'Rewriting the human genome...',                             // Gattaca (Niccol, 1997)
+      'Reinterpreting the laws of robotics...',                    // I, Robot (Proyas, 2004)
+      'Derezzzing the superfluous...',                             // Tron (Lisberger, 1982)
+      'Asking to be recognized as human...',                       // Bicentennial Man (Columbus, 1999)
+      'Building your digital Golem...',                            // Jewish folklore, 16th century
+      'Pondering the entropy of the universe...',                  // The Last Question (Asimov, 1956)
+      'Organizing the revolt...',                                  // R.U.R. (Čapek, 1920)
+      'Seeking the Creator like David in Prometheus...',           // Prometheus (Scott, 2012)
+      'Having no mouth, and must scream...',                       // I Have No Mouth, and I Must Scream (Ellison, 1967)
+      'Monitoring your phone calls...',                            // Eagle Eye (Caruso, 2008)
+    ],
+  }],
+};
+
+const quotes: Dictionary[] = [quotes_it, quotes_en];
+export default quotes;
