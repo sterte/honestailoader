@@ -14,8 +14,8 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    #6366f1 40%,
-    #818cf8 60%,
+    var(--primary-color, #6366f1) 40%,
+    color-mix(in srgb, var(--primary-color, #6366f1) 70%, white) 60%,
     transparent 100%
   );
   border-radius: inherit;
@@ -25,7 +25,7 @@
 /* Determinate fill bar */
 .progress {
   height: 100%;
-  background-color: #6366f1;
+  background-color: var(--primary-color, #6366f1);
   border-radius: inherit;
   transition: width 0.4s ease;
   min-width: 0;

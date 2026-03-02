@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoaderType } from '../HonestAILoader.types';
+import { LoaderType, StyleOptions } from '../HonestAILoader.types';
 import CircleLoader from './CircleLoader';
 import LinearLoader from './LinearLoader';
 
@@ -7,14 +7,15 @@ interface GraphicLoaderProps {
   type: LoaderType;
   loop: boolean;
   advancement: number;
+  styleOptions?: StyleOptions;
 }
 
 /** Renders the appropriate graphic loader based on `type`. */
-const GraphicLoader: React.FC<GraphicLoaderProps> = ({ type, loop, advancement }) => {
+const GraphicLoader: React.FC<GraphicLoaderProps> = ({ type, loop, advancement, styleOptions }) => {
   if (type === 'linear') {
-    return <LinearLoader loop={loop} advancement={advancement} />;
+    return <LinearLoader loop={loop} advancement={advancement} styleOptions={styleOptions} />;
   }
-  return <CircleLoader loop={loop} advancement={advancement} />;
+  return <CircleLoader loop={loop} advancement={advancement} styleOptions={styleOptions} />;
 };
 
 export default GraphicLoader;

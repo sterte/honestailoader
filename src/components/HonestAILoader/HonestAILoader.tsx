@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dictionary, HonestAILoaderProps } from './HonestAILoader.types';
+import { Dictionary, HonestAILoaderProps, StyleOptions, TextPosition } from './HonestAILoader.types';
 import { builtInDictionaryMap } from './dictionaries';
 import { normalizeProbabilities } from './utils/normalizeProbabilities';
 import GraphicLoader from './graphic/GraphicLoader';
@@ -25,6 +25,8 @@ const HonestAILoader: React.FC<HonestAILoaderProps> = ({
   textTime = 3000,
   textTransition = 'fade',
   transitionTime = 300,
+  textPosition = 'bottom',
+  styleOptions,
 }) => {
   // ── 1. Resolve built-in dictionary keys to language-specific Dictionary objects ──
   const builtInSlots = (dictionaries ?? []).map((key, i) => {
@@ -68,29 +70,57 @@ const HonestAILoader: React.FC<HonestAILoaderProps> = ({
   // Silently clamp advancement to [0, 1]
   const clampedAdvancement = Math.min(1, Math.max(0, advancement));
 
+  const isOverlay = textPosition === 'over' || textPosition === 'under';
+
+  const wrapperClass = [
+    styles.wrapper,
+    styles[`pos_${textPosition}` as keyof typeof styles],
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const graphic = showGraphic && (
+    <GraphicLoader type={type} loop={loop} advancement={clampedAdvancement} styleOptions={styleOptions} />
+  );
+
+  const text = showText && (
+    <TextLoader
+      currentText={currentText}
+      phase={phase}
+      textTransition={textTransition}
+      transitionTime={transitionTime}
+      styleOptions={styleOptions}
+    />
+  );
+
   return (
     <div
-      className={styles.wrapper}
+      className={wrapperClass}
       role="progressbar"
       aria-valuemin={loop ? undefined : 0}
       aria-valuemax={loop ? undefined : 100}
       aria-valuenow={loop ? undefined : Math.round(clampedAdvancement * 100)}
       aria-label="Loading"
     >
-      {showGraphic && (
-        <GraphicLoader
-          type={type}
-          loop={loop}
-          advancement={clampedAdvancement}
-        />
-      )}
-      {showText && (
-        <TextLoader
-          currentText={currentText}
-          phase={phase}
-          textTransition={textTransition}
-          transitionTime={transitionTime}
-        />
+      {isOverlay ? (
+        <>
+          {/* Graphic sits in normal flow and defines the wrapper size */}
+          {graphic && <div className={styles.overlayGraphic}>{graphic}</div>}
+          {/* Text is absolutely centered; z-index determines over/under */}
+          {text && (
+            <div className={[
+              styles.overlayText,
+              textPosition === 'over' ? styles.overlayText_over : styles.overlayText_under,
+            ].join(' ')}>
+              {text}
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          {graphic}
+          {text}
+        </>
       )}
     </div>
   );

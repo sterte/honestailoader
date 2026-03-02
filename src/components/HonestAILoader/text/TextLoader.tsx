@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextTransition } from '../HonestAILoader.types';
+import { StyleOptions, TextTransition } from '../HonestAILoader.types';
 import { Phase } from './useTextCycle';
 import styles from './TextLoader.module.css';
 
@@ -8,21 +8,32 @@ interface TextLoaderProps {
   phase: Phase;
   textTransition: TextTransition;
   transitionTime: number;
+  styleOptions?: StyleOptions;
 }
 
 /**
  * Renders the current phrase with a CSS transition driven by `phase`.
- * The `--transition-time` CSS custom property lets the transition
- * duration stay in sync with the JS-side timing.
+ * Dynamic visual properties come from `styleOptions`; animation timing
+ * from `--transition-time`.
  */
 const TextLoader: React.FC<TextLoaderProps> = ({
   currentText,
   phase,
   textTransition,
   transitionTime,
+  styleOptions,
 }) => {
-  // e.g. "fade_in", "scroll_visible", "fade_out"
   const phaseClass = styles[`${textTransition}_${phase}`] ?? '';
+
+  const dynamicStyle: React.CSSProperties = {
+    '--transition-time': `${transitionTime}ms`,
+    ...(styleOptions?.textColor     && { color:         styleOptions.textColor }),
+    ...(styleOptions?.fontSize      && { fontSize:      styleOptions.fontSize }),
+    ...(styleOptions?.fontWeight    && { fontWeight:    styleOptions.fontWeight }),
+    ...(styleOptions?.fontFamily    && { fontFamily:    styleOptions.fontFamily }),
+    ...(styleOptions?.letterSpacing && { letterSpacing: styleOptions.letterSpacing }),
+    ...(styleOptions?.lineHeight    && { lineHeight:    styleOptions.lineHeight }),
+  } as React.CSSProperties;
 
   return (
     <p
@@ -30,7 +41,7 @@ const TextLoader: React.FC<TextLoaderProps> = ({
       aria-live="polite"
       aria-atomic="true"
       className={[styles.text, phaseClass].filter(Boolean).join(' ')}
-      style={{ '--transition-time': `${transitionTime}ms` } as React.CSSProperties}
+      style={dynamicStyle}
     >
       {currentText}
     </p>

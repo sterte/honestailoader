@@ -1,5 +1,6 @@
 export type LoaderType = 'circle' | 'linear';
 export type TextTransition = 'fade' | 'scroll';
+export type TextPosition = 'top' | 'bottom' | 'left' | 'right' | 'over' | 'under';
 
 export interface DictionaryCategory {
   category: string;
@@ -13,6 +14,39 @@ export interface Dictionary {
 }
 
 export type BuiltInDictionaryKey = 'dict1' | 'dict2' | 'dict3';
+
+/** Visual customisation for the loader and its text. All fields are optional. */
+export interface StyleOptions {
+  // ── Graphic colours ──────────────────────────────────────────────
+  /** Animated arc / progress-bar fill colour. Default: #6366f1 */
+  primaryColor?: string;
+  /** Track / background colour. Default: #e5e7eb */
+  secondaryColor?: string;
+
+  // ── Graphic sizing ───────────────────────────────────────────────
+  /** Circle diameter OR linear bar width, in px. Default: 100 / 240 */
+  size?: number;
+  /** Circle stroke width in px (circle only). Default: 6 */
+  strokeWidth?: number;
+  /** Bar height in px (linear only). Default: 8 */
+  barHeight?: number;
+
+  // ── Text ─────────────────────────────────────────────────────────
+  /** Phrase colour. Default: #6b7280 */
+  textColor?: string;
+  /** CSS font-size value, e.g. "0.9rem" or "14px". Default: "0.9rem" */
+  fontSize?: string;
+  /** CSS font-weight, e.g. 400 or "bold". Default: 400 */
+  fontWeight?: number | string;
+  /** CSS font-family. Default: inherits */
+  fontFamily?: string;
+  /** CSS letter-spacing, e.g. "0.05em". Default: normal */
+  letterSpacing?: string;
+  /** CSS line-height. Default: 1.5 */
+  lineHeight?: number | string;
+}
+
+
 
 export interface HonestAILoaderProps {
   // --- Graphic ---
@@ -44,4 +78,11 @@ export interface HonestAILoaderProps {
   textTransition?: TextTransition;
   /** Milliseconds for the in/out transition animation (default: 300) */
   transitionTime?: number;
+  /** Visual style overrides: colours, sizes, font properties. */
+  styleOptions?: StyleOptions;
+  /** Where the text is placed relative to the graphic (default: 'bottom').
+   *  top/bottom/left/right → flex layout direction.
+   *  over → text floats centered on top of the graphic.
+   *  under → text sits centered behind the graphic (graphic overlaps it). */
+  textPosition?: TextPosition;
 }

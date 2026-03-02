@@ -1,21 +1,18 @@
-.track {
-  stroke: #e5e7eb;
-}
+/* Colours are set via inline `stroke` props in CircleLoader.tsx */
 
 .arc {
-  stroke: #6366f1;
+  /* colour from inline prop */
 }
 
 .progressArc {
-  stroke: #6366f1;
   transition: stroke-dashoffset 0.4s ease;
 }
 
-/* Spinner: rotate the whole SVG element */
+/* Spinner: rotate the whole SVG element around its dynamic centre */
 .spinnerSvg {
   display: block;
   animation: spin 1.2s linear infinite;
-  transform-origin: 50px 50px;
+  transform-origin: var(--svg-cx, 50px) var(--svg-cx, 50px);
 }
 
 .progressSvg {

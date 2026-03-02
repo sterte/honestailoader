@@ -1,51 +1,57 @@
 import React from 'react';
+import { StyleOptions } from '../HonestAILoader.types';
 import styles from './CircleLoader.module.css';
 
 interface CircleLoaderProps {
   loop: boolean;
   /** Progress 0..1 (pre-clamped by parent) */
   advancement: number;
+  styleOptions?: StyleOptions;
 }
 
-const RADIUS = 40;
-const STROKE_WIDTH = 6;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-
 /** SVG circular loader. In loop mode the whole SVG spins; in determinate mode the arc grows. */
-const CircleLoader: React.FC<CircleLoaderProps> = ({ loop, advancement }) => {
-  // Spinner shows a fixed 75% arc; progress shows actual completion
-  const fillRatio = loop ? 0.75 : advancement;
-  const dashOffset = CIRCUMFERENCE * (1 - fillRatio);
+const CircleLoader: React.FC<CircleLoaderProps> = ({ loop, advancement, styleOptions }) => {
+  const size        = styleOptions?.size        ?? 100;
+  const strokeWidth = styleOptions?.strokeWidth ?? 6;
+  const primary     = styleOptions?.primaryColor   ?? '#6366f1';
+  const secondary   = styleOptions?.secondaryColor ?? '#e5e7eb';
+
+  // Keep the arc stroke inside the SVG viewport
+  const radius        = size / 2 - strokeWidth;
+  const circumference = 2 * Math.PI * radius;
+  const cx            = size / 2;
+  const dashOffset    = circumference * (1 - (loop ? 0.75 : advancement));
+  const rotateOrigin  = `${cx} ${cx}`;
 
   return (
     <svg
       className={loop ? styles.spinnerSvg : styles.progressSvg}
-      width="100"
-      height="100"
-      viewBox="0 0 100 100"
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
       aria-hidden="true"
+      // CSS animation rotates around the SVG centre — keep transform-origin in sync
+      style={{ '--svg-cx': `${cx}px` } as React.CSSProperties}
     >
       {/* Background track */}
       <circle
         className={styles.track}
-        cx="50"
-        cy="50"
-        r={RADIUS}
+        cx={cx} cy={cx} r={radius}
         fill="none"
-        strokeWidth={STROKE_WIDTH}
+        strokeWidth={strokeWidth}
+        stroke={secondary}
       />
-      {/* Active arc — starts from 12 o'clock via rotate(-90) */}
+      {/* Active arc — starts from 12 o'clock */}
       <circle
         className={loop ? styles.arc : styles.progressArc}
-        cx="50"
-        cy="50"
-        r={RADIUS}
+        cx={cx} cy={cx} r={radius}
         fill="none"
-        strokeWidth={STROKE_WIDTH}
-        strokeDasharray={CIRCUMFERENCE}
+        strokeWidth={strokeWidth}
+        stroke={primary}
+        strokeDasharray={circumference}
         strokeDashoffset={dashOffset}
         strokeLinecap="round"
-        transform="rotate(-90 50 50)"
+        transform={`rotate(-90 ${rotateOrigin})`}
       />
     </svg>
   );

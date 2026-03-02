@@ -8,5 +8,7 @@ export type {
   DictionaryCategory,
   LoaderType,
   TextTransition,
+  TextPosition,
+  StyleOptions,
   BuiltInDictionaryKey,
 } from './HonestAILoader.types';

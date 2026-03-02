@@ -1,3 +1,4 @@
+/* Base wrapper — default is column (text below graphic) */
 .wrapper {
   display: inline-flex;
   flex-direction: column;
@@ -5,3 +6,39 @@
   justify-content: center;
   gap: 16px;
 }
+
+/* ── Directional variants ── */
+.pos_bottom { flex-direction: column; }
+.pos_top    { flex-direction: column-reverse; }
+.pos_right  { flex-direction: row; }
+.pos_left   { flex-direction: row-reverse; }
+
+/* ── Overlay variants (over / under) ── */
+.pos_over,
+.pos_under {
+  position: relative;
+  gap: 0;
+  isolation: isolate; /* create stacking context for z-index */
+}
+
+/* Graphic stays in normal flow and gives the wrapper its size */
+.overlayGraphic {
+  position: relative;
+  z-index: 1;
+}
+
+/* Text layer is absolutely centered inside the graphic's bounding box */
+.overlayText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* over: text on top of the graphic */
+.overlayText_over { z-index: 2; }
+
+/* under: text behind the graphic */
+.overlayText_under { z-index: 0; }
