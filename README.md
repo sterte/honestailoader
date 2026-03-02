@@ -253,7 +253,13 @@ npm publish --access public
 
 ## Demo
 
-The interactive demo (`src/HonestAILoaderDemo.tsx`) runs at `http://localhost:5173` after `npm run dev`.
+**Live demo: https://honest-ai-loader-demo.web.app**
+
+Or run it locally:
+
+```bash
+npm run dev   # http://localhost:5173
+```
 
 - **Left panel**: toggle and weight each built-in dictionary; build and export custom dictionaries as TypeScript.
 - **Right panel**: live preview with controls for all graphic, text, and style props.
