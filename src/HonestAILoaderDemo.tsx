@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HonestAILoader } from './components/HonestAILoader';
+import { version } from '../package.json';
 import type {
   BuiltInDictionaryKey,
   Dictionary,
@@ -359,6 +360,38 @@ export default function HonestAILoaderDemo() {
 
         </div>
       </main>
+
+      {/* ══ FOOTER ═══════════════════════════════════════════════════════════ */}
+      <footer style={footerStyle}>
+        <span>v{version}</span>
+        <span style={{ color: '#d1d5db' }}>·</span>
+        <a
+          href="https://creativecommons.org/licenses/by/4.0/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={footerLinkStyle}
+        >
+          CC BY 4.0
+        </a>
+        <span style={{ color: '#d1d5db' }}>·</span>
+        <a
+          href="https://github.com/sterte/honestailoader"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={footerLinkStyle}
+        >
+          GitHub
+        </a>
+        <span style={{ color: '#d1d5db' }}>·</span>
+        <a
+          href="https://www.npmjs.com/package/honest-ai-loader"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={footerLinkStyle}
+        >
+          npm
+        </a>
+      </footer>
     </div>
   );
 }
@@ -399,6 +432,7 @@ function Slider({ min, max, step, value, onChange, display }: {
 const pageStyle: React.CSSProperties = {
   display: 'grid',
   gridTemplateColumns: '340px 1fr',
+  gridTemplateRows: '1fr auto',
   height: '100vh',
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   fontSize: '0.875rem',
@@ -539,6 +573,24 @@ const exportBtnStyle: React.CSSProperties = {
   fontSize: '0.78rem',
   cursor: 'pointer',
   textAlign: 'center',
+};
+
+const footerStyle: React.CSSProperties = {
+  gridColumn: '1 / -1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '0.6rem',
+  padding: '0.5rem 1rem',
+  borderTop: '1px solid #e5e7eb',
+  fontSize: '0.72rem',
+  color: '#9ca3af',
+  background: '#fafafa',
+};
+
+const footerLinkStyle: React.CSSProperties = {
+  color: '#9ca3af',
+  textDecoration: 'none',
 };
 
 const langBtn = (active: boolean): React.CSSProperties => ({
