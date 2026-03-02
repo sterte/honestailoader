@@ -36,7 +36,7 @@ interface CustomDictEntry {
 
 export default function HonestAILoaderDemo() {
   // Language
-  const [language, setLanguage] = useState('it');
+  const [language, setLanguage] = useState('en');
 
   // Built-in dicts
   const [builtIn, setBuiltIn] = useState<Record<BuiltInDictionaryKey, BuiltInEntry>>(
@@ -52,6 +52,7 @@ export default function HonestAILoaderDemo() {
   const [bldCategory, setBldCategory] = useState('');
   const [bldPhrases,  setBldPhrases]  = useState('');
   const [copyDone,    setCopyDone]    = useState(false);
+  const [codeCopied,  setCodeCopied]  = useState(false);
 
   // Graphic
   const [showGraphic,  setShowGraphic]  = useState(true);
@@ -135,6 +136,59 @@ export default function HonestAILoaderDemo() {
     navigator.clipboard.writeText(lines.join('\n'));
     setCopyDone(true);
     setTimeout(() => setCopyDone(false), 2000);
+  };
+
+  // ── Code generation ───────────────────────────────────────────────────────
+
+  const generateCode = (): string => {
+    const props: string[] = [];
+
+    if (!showGraphic)                  props.push('  showGraphic={false}');
+    if (type !== 'circle')             props.push(`  type="${type}"`);
+    if (!loop)                         props.push('  loop={false}');
+    if (!loop && advancement !== 0)    props.push(`  advancement={${advancement}}`);
+    if (!showText)                     props.push('  showText={false}');
+    if (language !== 'en')             props.push(`  language="${language}"`);
+
+    const defaultDicts: BuiltInDictionaryKey[] = ['environment'];
+    if (JSON.stringify(activeDicts) !== JSON.stringify(defaultDicts))
+      props.push(`  dictionaries={[${activeDicts.map(k => `'${k}'`).join(', ')}]}`);
+    if (customDictObjs.length > 0)
+      props.push('  customDictionaries={customDicts}');
+
+    if (textTransition !== 'fade')     props.push(`  textTransition="${textTransition}"`);
+    if (textPosition !== 'bottom')     props.push(`  textPosition="${textPosition}"`);
+    if (textTime !== 3000)             props.push(`  textTime={${textTime}}`);
+    if (transitionTime !== 300)        props.push(`  transitionTime={${transitionTime}}`);
+
+    const styleDefaults: StyleOptions = {
+      primaryColor: '#6366f1', secondaryColor: '#e5e7eb',
+      size: 100, strokeWidth: 6, barHeight: 8,
+      textColor: '#6b7280', fontSize: '0.9rem',
+      fontWeight: 400, fontFamily: '', letterSpacing: '0em', lineHeight: 1.5,
+    };
+    const styleLines = (Object.entries(style) as [keyof StyleOptions, unknown][])
+      .filter(([k, v]) => v !== '' && v !== undefined && v !== styleDefaults[k])
+      .map(([k, v]) => typeof v === 'string' ? `    ${k}: '${v}',` : `    ${k}: ${v},`);
+    if (styleLines.length > 0)
+      props.push(`  styleOptions={{\n${styleLines.join('\n')}\n  }}`);
+
+    const tag = props.length === 0
+      ? '<HonestAILoader />'
+      : `<HonestAILoader\n${props.join('\n')}\n/>`;
+
+    return [
+      `import { HonestAILoader } from 'honest-ai-loader';`,
+      `import 'honest-ai-loader/style.css';`,
+      '',
+      tag,
+    ].join('\n');
+  };
+
+  const copyCode = () => {
+    navigator.clipboard.writeText(generateCode());
+    setCodeCopied(true);
+    setTimeout(() => setCodeCopied(false), 2000);
   };
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -359,6 +413,18 @@ export default function HonestAILoaderDemo() {
           </fieldset>
 
         </div>
+
+        {/* Generated code */}
+        <div style={codeWrapperStyle}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+            <span style={legendStyle}>Generated code</span>
+            <button onClick={copyCode} style={copyCodeBtnStyle}>
+              {codeCopied ? '✓ Copied' : 'Copy'}
+            </button>
+          </div>
+          <pre style={codeStyle}>{generateCode()}</pre>
+        </div>
+
       </main>
 
       {/* ══ FOOTER ═══════════════════════════════════════════════════════════ */}
@@ -573,6 +639,35 @@ const exportBtnStyle: React.CSSProperties = {
   fontSize: '0.78rem',
   cursor: 'pointer',
   textAlign: 'center',
+};
+
+const codeWrapperStyle: React.CSSProperties = {
+  borderRadius: 8,
+  border: '1px solid #e5e7eb',
+  padding: '0.6rem 0.75rem',
+};
+
+const codeStyle: React.CSSProperties = {
+  margin: 0,
+  fontFamily: '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace',
+  fontSize: '0.75rem',
+  lineHeight: 1.6,
+  color: '#374151',
+  background: '#f9fafb',
+  borderRadius: 6,
+  padding: '0.75rem',
+  overflowX: 'auto',
+  whiteSpace: 'pre',
+};
+
+const copyCodeBtnStyle: React.CSSProperties = {
+  padding: '0.2rem 0.6rem',
+  borderRadius: 4,
+  border: '1px solid #d1d5db',
+  background: '#fff',
+  color: '#374151',
+  fontSize: '0.7rem',
+  cursor: 'pointer',
 };
 
 const footerStyle: React.CSSProperties = {
