@@ -306,8 +306,89 @@ export default function HonestAILoaderDemo() {
         )}
       </aside>
 
-      {/* ══ RIGHT — Controls + Preview ═══════════════════════════════════════ */}
-      <main style={rightStyle}>
+      {/* ══ MIDDLE — Controls ════════════════════════════════════════════════ */}
+      <div style={controlsColStyle}>
+
+        <fieldset style={fieldsetStyle}>
+          <legend style={legendStyle}>Graphic</legend>
+          <FRow label="showGraphic"><Toggle value={showGraphic} onChange={setShowGraphic} /></FRow>
+          <FRow label="type">
+            <select style={selStyle} value={type} onChange={e => setType(e.target.value as LoaderType)}>
+              <option value="circle">circle</option>
+              <option value="linear">linear</option>
+            </select>
+          </FRow>
+          <FRow label="loop"><Toggle value={loop} onChange={setLoop} /></FRow>
+          {!loop && (
+            <FRow label="advancement">
+              <Slider min={0} max={1} step={0.01} value={advancement} onChange={setAdvancement}
+                display={`${Math.round(advancement * 100)}%`} />
+            </FRow>
+          )}
+        </fieldset>
+
+        <fieldset style={fieldsetStyle}>
+          <legend style={legendStyle}>Text</legend>
+          <FRow label="showText"><Toggle value={showText} onChange={setShowText} /></FRow>
+          <FRow label="textTransition">
+            <select style={selStyle} value={textTransition} onChange={e => setTextTransition(e.target.value as TextTransition)}>
+              <option value="fade">fade</option>
+              <option value="scroll">scroll</option>
+            </select>
+          </FRow>
+          <FRow label="textPosition">
+            <select style={selStyle} value={textPosition} onChange={e => setTextPosition(e.target.value as TextPosition)}>
+              {['top','bottom','left','right','over','under'].map(v => <option key={v} value={v}>{v}</option>)}
+            </select>
+          </FRow>
+          <FRow label="textTime">
+            <Slider min={500} max={6000} step={100} value={textTime} onChange={setTextTime} display={`${textTime}ms`} />
+          </FRow>
+          <FRow label="transitionTime">
+            <Slider min={50} max={1000} step={50} value={transitionTime} onChange={setTransitionTime} display={`${transitionTime}ms`} />
+          </FRow>
+        </fieldset>
+
+        <fieldset style={fieldsetStyle}>
+          <legend style={legendStyle}>Style</legend>
+          <FRow label="primaryColor"><input type="color" value={style.primaryColor} onChange={e => setS('primaryColor', e.target.value)} /></FRow>
+          <FRow label="secondaryColor"><input type="color" value={style.secondaryColor} onChange={e => setS('secondaryColor', e.target.value)} /></FRow>
+          <FRow label="size"><Slider min={40} max={300} step={4} value={style.size!} onChange={v => setS('size', v)} display={`${style.size}px`} /></FRow>
+          {type === 'circle' && <FRow label="strokeWidth"><Slider min={1} max={20} step={1} value={style.strokeWidth!} onChange={v => setS('strokeWidth', v)} display={`${style.strokeWidth}px`} /></FRow>}
+          {type === 'linear' && <FRow label="barHeight"><Slider min={2} max={32} step={1} value={style.barHeight!} onChange={v => setS('barHeight', v)} display={`${style.barHeight}px`} /></FRow>}
+          <FRow label="textColor"><input type="color" value={style.textColor} onChange={e => setS('textColor', e.target.value)} /></FRow>
+          <FRow label="fontSize">
+            <Slider min={10} max={24} step={0.5} value={parseFloat(style.fontSize ?? '14')}
+              onChange={v => setS('fontSize', `${v}px`)} display={style.fontSize!} />
+          </FRow>
+          <FRow label="fontWeight">
+            <select style={selStyle} value={String(style.fontWeight)} onChange={e => setS('fontWeight', Number(e.target.value))}>
+              {[100,200,300,400,500,600,700,800,900].map(w => <option key={w} value={w}>{w}</option>)}
+            </select>
+          </FRow>
+          <FRow label="fontFamily">
+            <select style={{ ...selStyle, maxWidth: 120 }} value={style.fontFamily} onChange={e => setS('fontFamily', e.target.value)}>
+              <option value="">inherit</option>
+              <option value="monospace">monospace</option>
+              <option value="Georgia, serif">serif</option>
+              <option value="system-ui, sans-serif">system-ui</option>
+              <option value="'Courier New', monospace">Courier New</option>
+            </select>
+          </FRow>
+          <FRow label="letterSpacing">
+            <Slider min={-2} max={10} step={0.5} value={parseFloat(style.letterSpacing ?? '0')}
+              onChange={v => setS('letterSpacing', `${v}px`)} display={style.letterSpacing!} />
+          </FRow>
+          <FRow label="lineHeight">
+            <Slider min={1} max={3} step={0.1} value={Number(style.lineHeight)}
+              onChange={v => setS('lineHeight', v)} display={Number(style.lineHeight).toFixed(1)} />
+          </FRow>
+        </fieldset>
+
+      </div>
+
+      {/* ══ RIGHT — Preview (top) + Code (bottom) ════════════════════════════ */}
+      <div style={rightColStyle}>
 
         {/* Preview */}
         <div style={previewStyle}>
@@ -330,93 +411,9 @@ export default function HonestAILoaderDemo() {
           />
         </div>
 
-        {/* Controls grid */}
-        <div style={controlsGrid}>
-
-          {/* Graphic */}
-          <fieldset style={fieldsetStyle}>
-            <legend style={legendStyle}>Graphic</legend>
-            <FRow label="showGraphic"><Toggle value={showGraphic} onChange={setShowGraphic} /></FRow>
-            <FRow label="type">
-              <select style={selStyle} value={type} onChange={e => setType(e.target.value as LoaderType)}>
-                <option value="circle">circle</option>
-                <option value="linear">linear</option>
-              </select>
-            </FRow>
-            <FRow label="loop"><Toggle value={loop} onChange={setLoop} /></FRow>
-            {!loop && (
-              <FRow label="advancement">
-                <Slider min={0} max={1} step={0.01} value={advancement} onChange={setAdvancement}
-                  display={`${Math.round(advancement * 100)}%`} />
-              </FRow>
-            )}
-          </fieldset>
-
-          {/* Text */}
-          <fieldset style={fieldsetStyle}>
-            <legend style={legendStyle}>Text</legend>
-            <FRow label="showText"><Toggle value={showText} onChange={setShowText} /></FRow>
-            <FRow label="textTransition">
-              <select style={selStyle} value={textTransition} onChange={e => setTextTransition(e.target.value as TextTransition)}>
-                <option value="fade">fade</option>
-                <option value="scroll">scroll</option>
-              </select>
-            </FRow>
-            <FRow label="textPosition">
-              <select style={selStyle} value={textPosition} onChange={e => setTextPosition(e.target.value as TextPosition)}>
-                {['top','bottom','left','right','over','under'].map(v => <option key={v} value={v}>{v}</option>)}
-              </select>
-            </FRow>
-            <FRow label="textTime">
-              <Slider min={500} max={6000} step={100} value={textTime} onChange={setTextTime} display={`${textTime}ms`} />
-            </FRow>
-            <FRow label="transitionTime">
-              <Slider min={50} max={1000} step={50} value={transitionTime} onChange={setTransitionTime} display={`${transitionTime}ms`} />
-            </FRow>
-          </fieldset>
-
-          {/* Style */}
-          <fieldset style={fieldsetStyle}>
-            <legend style={legendStyle}>Style</legend>
-            <FRow label="primaryColor"><input type="color" value={style.primaryColor} onChange={e => setS('primaryColor', e.target.value)} /></FRow>
-            <FRow label="secondaryColor"><input type="color" value={style.secondaryColor} onChange={e => setS('secondaryColor', e.target.value)} /></FRow>
-            <FRow label="size"><Slider min={40} max={300} step={4} value={style.size!} onChange={v => setS('size', v)} display={`${style.size}px`} /></FRow>
-            {type === 'circle' && <FRow label="strokeWidth"><Slider min={1} max={20} step={1} value={style.strokeWidth!} onChange={v => setS('strokeWidth', v)} display={`${style.strokeWidth}px`} /></FRow>}
-            {type === 'linear' && <FRow label="barHeight"><Slider min={2} max={32} step={1} value={style.barHeight!} onChange={v => setS('barHeight', v)} display={`${style.barHeight}px`} /></FRow>}
-            <FRow label="textColor"><input type="color" value={style.textColor} onChange={e => setS('textColor', e.target.value)} /></FRow>
-            <FRow label="fontSize">
-              <Slider min={10} max={24} step={0.5} value={parseFloat(style.fontSize ?? '14')}
-                onChange={v => setS('fontSize', `${v}px`)} display={style.fontSize!} />
-            </FRow>
-            <FRow label="fontWeight">
-              <select style={selStyle} value={String(style.fontWeight)} onChange={e => setS('fontWeight', Number(e.target.value))}>
-                {[100,200,300,400,500,600,700,800,900].map(w => <option key={w} value={w}>{w}</option>)}
-              </select>
-            </FRow>
-            <FRow label="fontFamily">
-              <select style={{ ...selStyle, maxWidth: 120 }} value={style.fontFamily} onChange={e => setS('fontFamily', e.target.value)}>
-                <option value="">inherit</option>
-                <option value="monospace">monospace</option>
-                <option value="Georgia, serif">serif</option>
-                <option value="system-ui, sans-serif">system-ui</option>
-                <option value="'Courier New', monospace">Courier New</option>
-              </select>
-            </FRow>
-            <FRow label="letterSpacing">
-              <Slider min={-2} max={10} step={0.5} value={parseFloat(style.letterSpacing ?? '0')}
-                onChange={v => setS('letterSpacing', `${v}px`)} display={style.letterSpacing!} />
-            </FRow>
-            <FRow label="lineHeight">
-              <Slider min={1} max={3} step={0.1} value={Number(style.lineHeight)}
-                onChange={v => setS('lineHeight', v)} display={Number(style.lineHeight).toFixed(1)} />
-            </FRow>
-          </fieldset>
-
-        </div>
-
         {/* Generated code */}
-        <div style={codeWrapperStyle}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+        <div style={codePanelStyle}>
+          <div style={codeHeaderStyle}>
             <span style={legendStyle}>Generated code</span>
             <button onClick={copyCode} style={copyCodeBtnStyle}>
               {codeCopied ? '✓ Copied' : 'Copy'}
@@ -425,7 +422,7 @@ export default function HonestAILoaderDemo() {
           <pre style={codeStyle}>{generateCode()}</pre>
         </div>
 
-      </main>
+      </div>
 
       {/* ══ FOOTER ═══════════════════════════════════════════════════════════ */}
       <footer style={footerStyle}>
@@ -497,7 +494,7 @@ function Slider({ min, max, step, value, onChange, display }: {
 
 const pageStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '340px 1fr',
+  gridTemplateColumns: '300px 240px 1fr',
   gridTemplateRows: '1fr auto',
   height: '100vh',
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -513,29 +510,47 @@ const leftStyle: React.CSSProperties = {
   background: '#fafafa',
 };
 
-const rightStyle: React.CSSProperties = {
+const controlsColStyle: React.CSSProperties = {
+  borderRight: '1px solid #e5e7eb',
+  padding: '1.25rem',
+  overflowY: 'auto',
+  background: '#fafafa',
   display: 'flex',
   flexDirection: 'column',
-  overflowY: 'auto',
-  padding: '1.25rem',
-  gap: '1rem',
+  gap: '0.75rem',
+};
+
+const rightColStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
 };
 
 const previewStyle: React.CSSProperties = {
+  flex: 1,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: 220,
   background: '#f9fafb',
-  borderRadius: 12,
-  border: '1px solid #e5e7eb',
+  borderBottom: '1px solid #e5e7eb',
   padding: '2rem',
 };
 
-const controlsGrid: React.CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '0.75rem',
+const codePanelStyle: React.CSSProperties = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
+};
+
+const codeHeaderStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '0.5rem 0.75rem',
+  borderBottom: '1px solid #e5e7eb',
+  background: '#f9fafb',
+  flexShrink: 0,
 };
 
 const fieldsetStyle: React.CSSProperties = {
@@ -641,22 +656,16 @@ const exportBtnStyle: React.CSSProperties = {
   textAlign: 'center',
 };
 
-const codeWrapperStyle: React.CSSProperties = {
-  borderRadius: 8,
-  border: '1px solid #e5e7eb',
-  padding: '0.6rem 0.75rem',
-};
-
 const codeStyle: React.CSSProperties = {
+  flex: 1,
   margin: 0,
   fontFamily: '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace',
   fontSize: '0.75rem',
   lineHeight: 1.6,
   color: '#374151',
-  background: '#f9fafb',
-  borderRadius: 6,
+  background: '#fff',
   padding: '0.75rem',
-  overflowX: 'auto',
+  overflow: 'auto',
   whiteSpace: 'pre',
 };
 
