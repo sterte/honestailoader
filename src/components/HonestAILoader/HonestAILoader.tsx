@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dictionary, HonestAILoaderProps, StyleOptions, TextPosition } from './HonestAILoader.types';
+import type { Dictionary, HonestAILoaderProps } from './HonestAILoader.types';
 import { builtInDictionaryMap } from './dictionaries';
 import { normalizeProbabilities } from './utils/normalizeProbabilities';
 import GraphicLoader from './graphic/GraphicLoader';

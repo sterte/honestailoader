@@ -14,7 +14,22 @@ You can mix dictionaries, weight them, add your own, and tune every visual aspec
 
 ## Installation
 
-This project is not published to npm (it's a POC). Clone and run locally:
+### From npm
+
+```bash
+npm install honest-ai-loader
+```
+
+Then import the component and its stylesheet:
+
+```tsx
+import { HonestAILoader } from 'honest-ai-loader';
+import 'honest-ai-loader/style.css';
+```
+
+> **The CSS import is required.** The component uses CSS Modules; the styles are shipped as a separate file in the package.
+
+### Run the demo locally
 
 ```bash
 git clone https://github.com/sterte/honestailoader.git
@@ -30,7 +45,8 @@ Requires **Node 18+** (developed on Node 22). Vite 5 will refuse older versions.
 ## Quick example
 
 ```tsx
-import HonestAILoader from './src/components/HonestAILoader';
+import { HonestAILoader } from 'honest-ai-loader';
+import 'honest-ai-loader/style.css';
 
 // Minimal — spinning circle, English environment phrases
 <HonestAILoader />
@@ -186,6 +202,52 @@ Phrases are sampled at each text cycle using weighted random selection:
 2. Weights from `dictionaryProbabilities` / `customDictionaryProbabilities` are normalized to sum to 1. Missing weights default to `1`.
 3. A dictionary is chosen by weight, then a category within it uniformly, then a phrase uniformly.
 4. A simple 5-attempt heuristic avoids repeating the immediately preceding phrase.
+
+---
+
+## Publishing to npm
+
+If you want to publish your own version:
+
+```bash
+# 1. Build the distributable bundle
+npm run build:lib
+# Produces dist/honest-ai-loader.js (ESM), dist/honest-ai-loader.cjs (CJS),
+# dist/honest-ai-loader.d.ts (TypeScript declarations), dist/style.css
+
+# 2. Create an account on https://www.npmjs.com if you don't have one
+
+# 3. Log in from the terminal
+npm login
+# Prompts for username, password, and OTP if 2FA is enabled
+
+# 4. (Optional) Change the package name in package.json if "honest-ai-loader" is taken,
+#    or scope it: "@yourusername/honest-ai-loader"
+
+# 5. Publish
+npm publish --access public
+# --access public is required for scoped packages (@yourusername/...)
+# Unscoped packages are public by default
+```
+
+After publishing, users install it with:
+
+```bash
+npm install honest-ai-loader
+```
+
+### Releasing a new version
+
+npm uses [semantic versioning](https://semver.org). Bump the version before each publish:
+
+```bash
+npm version patch   # 0.1.0 → 0.1.1  (bug fixes)
+npm version minor   # 0.1.0 → 0.2.0  (new features, backwards-compatible)
+npm version major   # 0.1.0 → 1.0.0  (breaking changes)
+npm publish --access public
+```
+
+`npm version` automatically updates `package.json` and creates a git tag.
 
 ---
 

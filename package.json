@@ -1,23 +1,49 @@
 {
   "name": "honest-ai-loader",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A configurable React TypeScript loading component with animated graphics and honest loading phrases",
-  "private": true,
+  "type": "module",
+  "main": "./dist/honest-ai-loader.cjs",
+  "module": "./dist/honest-ai-loader.js",
+  "types": "./dist/honest-ai-loader.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/honest-ai-loader.d.ts",
+        "default": "./dist/honest-ai-loader.js"
+      },
+      "require": {
+        "types": "./dist/honest-ai-loader.d.ts",
+        "default": "./dist/honest-ai-loader.cjs"
+      }
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:lib": "vite build --config vite.lib.config.ts",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vite-plugin-dts": "^4.5.4"
   }
 }
