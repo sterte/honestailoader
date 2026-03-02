@@ -494,7 +494,7 @@ function Slider({ min, max, step, value, onChange, display }: {
 
 const pageStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '300px 240px 1fr',
+  gridTemplateColumns: '300px 280px 1fr',
   gridTemplateRows: '1fr auto',
   height: '100vh',
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -514,6 +514,7 @@ const controlsColStyle: React.CSSProperties = {
   borderRight: '1px solid #e5e7eb',
   padding: '1.25rem',
   overflowY: 'auto',
+  overflowX: 'hidden',
   background: '#fafafa',
   display: 'flex',
   flexDirection: 'column',
