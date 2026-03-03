@@ -101,6 +101,7 @@ All props are optional.
 | `type` | `'circle' \| 'linear'` | `'circle'` | Shape of the graphic |
 | `loop` | `boolean` | `true` | `true` = indeterminate spinner; `false` = determinate progress |
 | `advancement` | `number` | `0` | Progress value `0..1`, used when `loop=false`. Clamped silently |
+| `speed` | `number` | `1` | Animation speed multiplier when `loop=true`. `2` = twice as fast, `0.5` = half speed |
 
 #### Text props
 
@@ -113,7 +114,7 @@ All props are optional.
 | `dictionaryProbabilities` | `number[]` | — | Unnormalized weights for each entry in `dictionaries` |
 | `customDictionaryProbabilities` | `number[]` | — | Unnormalized weights for each entry in `customDictionaries` |
 | `textTime` | `number` | `3000` | Milliseconds each phrase stays fully visible |
-| `textTransition` | `'fade' \| 'scroll'` | `'fade'` | Transition animation between phrases |
+| `textTransition` | `'fade' \| 'scroll-up' \| 'scroll-down' \| 'scroll-left' \| 'scroll-right'` | `'fade'` | Transition animation between phrases. Scroll variants name the entry direction; text exits from the opposite side |
 | `transitionTime` | `number` | `300` | Milliseconds for the in/out transition animation |
 | `textPosition` | `TextPosition` | `'bottom'` | Where the text sits relative to the graphic (see below) |
 | `styleOptions` | `StyleOptions` | — | Visual overrides for colours, sizes, and font (see below) |
@@ -261,8 +262,9 @@ Or run it locally:
 npm run dev   # http://localhost:5173
 ```
 
-- **Left panel**: toggle and weight each built-in dictionary; build and export custom dictionaries as TypeScript.
-- **Right panel**: live preview with controls for all graphic, text, and style props.
+- **Left panel**: preset selector and controls for all graphic, text, and style props.
+- **Centre panel**: live preview and generated code snippet.
+- **Right panel**: toggle and weight each built-in dictionary; build and export custom dictionaries as TypeScript.
 
 ---
 
@@ -278,4 +280,4 @@ npm run dev   # http://localhost:5173
 
 ## License
 
-Do whatever you want with it. It's a POC.
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) — free to use, share, and adapt with attribution, for non-commercial purposes, under the same licence.

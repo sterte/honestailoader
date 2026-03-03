@@ -6,11 +6,12 @@ interface CircleLoaderProps {
   loop: boolean;
   /** Progress 0..1 (pre-clamped by parent) */
   advancement: number;
+  speed: number;
   styleOptions?: StyleOptions;
 }
 
 /** SVG circular loader. In loop mode the whole SVG spins; in determinate mode the arc grows. */
-const CircleLoader: React.FC<CircleLoaderProps> = ({ loop, advancement, styleOptions }) => {
+const CircleLoader: React.FC<CircleLoaderProps> = ({ loop, advancement, speed, styleOptions }) => {
   const size        = styleOptions?.size        ?? 100;
   const strokeWidth = styleOptions?.strokeWidth ?? 6;
   const primary     = styleOptions?.primaryColor   ?? '#6366f1';
@@ -31,7 +32,7 @@ const CircleLoader: React.FC<CircleLoaderProps> = ({ loop, advancement, styleOpt
       viewBox={`0 0 ${size} ${size}`}
       aria-hidden="true"
       // CSS animation rotates around the SVG centre — keep transform-origin in sync
-      style={{ '--svg-cx': `${cx}px` } as React.CSSProperties}
+      style={{ '--svg-cx': `${cx}px`, '--spin-duration': `${1.2 / Math.max(speed, 0.01)}s` } as React.CSSProperties}
     >
       {/* Background track */}
       <circle

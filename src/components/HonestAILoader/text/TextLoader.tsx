@@ -23,9 +23,18 @@ const TextLoader: React.FC<TextLoaderProps> = ({
   transitionTime,
   styleOptions,
 }) => {
-  const phaseClass = styles[`${textTransition}_${phase}`] ?? '';
+  const resolvedTransition = textTransition === 'scroll' ? 'scroll-up' : textTransition;
+  const phaseClass = styles[`${resolvedTransition}_${phase}`] ?? '';
 
-  const dynamicStyle: React.CSSProperties = {
+  // CSS vars go on the wrapper: --text-line-height drives the fixed height calc,
+  // and fontSize sets the `em` reference so the calc scales with font size.
+  // Visual styles go on the <p> as inline so they override the class declarations.
+  const wrapperStyle: React.CSSProperties = {
+    '--text-line-height': String(styleOptions?.lineHeight ?? 1.5),
+    ...(styleOptions?.fontSize && { fontSize: styleOptions.fontSize }),
+  } as React.CSSProperties;
+
+  const textStyle: React.CSSProperties = {
     '--transition-time': `${transitionTime}ms`,
     ...(styleOptions?.textColor     && { color:         styleOptions.textColor }),
     ...(styleOptions?.fontSize      && { fontSize:      styleOptions.fontSize }),
@@ -36,15 +45,17 @@ const TextLoader: React.FC<TextLoaderProps> = ({
   } as React.CSSProperties;
 
   return (
-    <p
-      role="status"
-      aria-live="polite"
-      aria-atomic="true"
-      className={[styles.text, phaseClass].filter(Boolean).join(' ')}
-      style={dynamicStyle}
-    >
-      {currentText}
-    </p>
+    <div className={styles.textWrapper} style={wrapperStyle}>
+      <p
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className={[styles.text, phaseClass].filter(Boolean).join(' ')}
+        style={textStyle}
+      >
+        {currentText}
+      </p>
+    </div>
   );
 };
 

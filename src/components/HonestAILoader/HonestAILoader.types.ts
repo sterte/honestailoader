@@ -1,5 +1,5 @@
 export type LoaderType = 'circle' | 'linear';
-export type TextTransition = 'fade' | 'scroll';
+export type TextTransition = 'fade' | 'scroll' | 'scroll-up' | 'scroll-down' | 'scroll-left' | 'scroll-right';
 export type TextPosition = 'top' | 'bottom' | 'left' | 'right' | 'over' | 'under';
 
 export interface DictionaryCategory {
@@ -58,6 +58,8 @@ export interface HonestAILoaderProps {
   loop?: boolean;
   /** Progress value 0..1, used only when loop=false. Clamped silently (default: 0) */
   advancement?: number;
+  /** Animation speed multiplier when loop=true. 1 = default, 2 = twice as fast, 0.5 = half speed (default: 1) */
+  speed?: number;
 
   // --- Text ---
   /** Show rotating text phrases (default: true) */

@@ -19,7 +19,7 @@
     transparent 100%
   );
   border-radius: inherit;
-  animation: shimmer 1.5s ease-in-out infinite;
+  animation: shimmer var(--shimmer-duration, 1.5s) ease-in-out infinite;
 }
 
 /* Determinate fill bar */

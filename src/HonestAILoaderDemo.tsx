@@ -32,6 +32,124 @@ interface CustomDictEntry {
   weight: number;
 }
 
+interface Preset {
+  name: string;
+  language: string;
+  builtIn: Record<BuiltInDictionaryKey, BuiltInEntry>;
+  showGraphic: boolean;
+  type: LoaderType;
+  loop: boolean;
+  speed: number;
+  advancement: number;
+  showText: boolean;
+  textTransition: TextTransition;
+  textPosition: TextPosition;
+  textTime: number;
+  transitionTime: number;
+  style: StyleOptions;
+}
+
+// ── Preset helpers ─────────────────────────────────────────────────────────────
+
+const allEnabled = (): Record<BuiltInDictionaryKey, BuiltInEntry> =>
+  Object.fromEntries(BUILT_IN_KEYS.map(k => [k, { enabled: true, weight: 1 }])) as Record<BuiltInDictionaryKey, BuiltInEntry>;
+
+const onlyDicts = (...keys: BuiltInDictionaryKey[]): Record<BuiltInDictionaryKey, BuiltInEntry> =>
+  Object.fromEntries(BUILT_IN_KEYS.map(k => [k, { enabled: keys.includes(k), weight: 1 }])) as Record<BuiltInDictionaryKey, BuiltInEntry>;
+
+const PRESETS: Preset[] = [
+  {
+    // linear · loop · scroll · bottom · fast
+    name: 'Alert',
+    language: 'en',
+    builtIn: onlyDicts('power', 'data'),
+    showGraphic: true, type: 'linear', loop: true, speed: 2.5, advancement: 0,
+    showText: true, textTransition: 'scroll-up', textPosition: 'bottom', textTime: 1200, transitionTime: 150,
+    style: { primaryColor: '#ef4444', secondaryColor: '#fef2f2', size: 240, strokeWidth: 6, barHeight: 10, textColor: '#b91c1c', fontSize: '0.85rem', fontWeight: 700, fontFamily: '', letterSpacing: '0.03em', lineHeight: 1.5 },
+  },
+  {
+    // linear · determinate · scroll · right
+    name: 'Blueprint',
+    language: 'en',
+    builtIn: onlyDicts('work', 'data'),
+    showGraphic: true, type: 'linear', loop: false, speed: 1, advancement: 0.42,
+    showText: true, textTransition: 'scroll-right', textPosition: 'right', textTime: 2500, transitionTime: 250,
+    style: { primaryColor: '#3b82f6', secondaryColor: '#dbeafe', size: 200, strokeWidth: 6, barHeight: 6, textColor: '#1d4ed8', fontSize: '0.8rem', fontWeight: 500, fontFamily: "'Courier New', monospace", letterSpacing: '0.04em', lineHeight: 1.5 },
+  },
+  {
+    // no graphic · fade · bottom · slow serif
+    name: 'Cinematic',
+    language: 'en',
+    builtIn: onlyDicts('cinema', 'quotes'),
+    showGraphic: false, type: 'circle', loop: true, speed: 1, advancement: 0,
+    showText: true, textTransition: 'fade', textPosition: 'bottom', textTime: 4000, transitionTime: 800,
+    style: { primaryColor: '#6366f1', secondaryColor: '#e5e7eb', size: 100, strokeWidth: 6, barHeight: 8, textColor: '#1a1a1a', fontSize: '1.2rem', fontWeight: 300, fontFamily: 'Georgia, serif', letterSpacing: '0.02em', lineHeight: 1.8 },
+  },
+  {
+    // circle · loop · fade · bottom · normal
+    name: 'Default',
+    language: 'en',
+    builtIn: allEnabled(),
+    showGraphic: true, type: 'circle', loop: true, speed: 1, advancement: 0,
+    showText: true, textTransition: 'fade', textPosition: 'bottom', textTime: 2000, transitionTime: 300,
+    style: { primaryColor: '#6366f1', secondaryColor: '#e5e7eb', size: 100, strokeWidth: 6, barHeight: 8, textColor: '#374151', fontSize: '0.9rem', fontWeight: 400, fontFamily: '', letterSpacing: '0em', lineHeight: 1.5 },
+  },
+  {
+    // circle · loop · fade · over · barely visible
+    name: 'Ghost',
+    language: 'en',
+    builtIn: onlyDicts('quotes', 'society'),
+    showGraphic: true, type: 'circle', loop: true, speed: 0.75, advancement: 0,
+    showText: true, textTransition: 'fade', textPosition: 'over', textTime: 3000, transitionTime: 900,
+    style: { primaryColor: '#e2e8f0', secondaryColor: '#f8fafc', size: 90, strokeWidth: 1, barHeight: 4, textColor: '#94a3b8', fontSize: '0.85rem', fontWeight: 300, fontFamily: '', letterSpacing: '0.12em', lineHeight: 1.7 },
+  },
+  {
+    // circle · loop · scroll · left · fast green
+    name: 'Matrix',
+    language: 'en',
+    builtIn: onlyDicts('data', 'power'),
+    showGraphic: true, type: 'circle', loop: true, speed: 3, advancement: 0,
+    showText: true, textTransition: 'scroll-left', textPosition: 'left', textTime: 1000, transitionTime: 100,
+    style: { primaryColor: '#00ff41', secondaryColor: '#0d1117', size: 70, strokeWidth: 4, barHeight: 8, textColor: '#00ff41', fontSize: '0.75rem', fontWeight: 400, fontFamily: "'Courier New', monospace", letterSpacing: '0.08em', lineHeight: 1.4 },
+  },
+  {
+    // linear · loop · fade · top · pink/purple
+    name: 'Neon',
+    language: 'en',
+    builtIn: onlyDicts('power', 'society'),
+    showGraphic: true, type: 'linear', loop: true, speed: 2, advancement: 0,
+    showText: true, textTransition: 'fade', textPosition: 'top', textTime: 1500, transitionTime: 400,
+    style: { primaryColor: '#f0abfc', secondaryColor: '#1e1b4b', size: 200, strokeWidth: 8, barHeight: 6, textColor: '#f0abfc', fontSize: '1rem', fontWeight: 600, fontFamily: 'system-ui, sans-serif', letterSpacing: '0.1em', lineHeight: 1.5 },
+  },
+  {
+    // linear · determinate · fade · bottom · soft pink
+    name: 'Pastel',
+    language: 'en',
+    builtIn: onlyDicts('environment', 'society', 'quotes'),
+    showGraphic: true, type: 'linear', loop: false, speed: 1, advancement: 0.65,
+    showText: true, textTransition: 'fade', textPosition: 'bottom', textTime: 2800, transitionTime: 600,
+    style: { primaryColor: '#f9a8d4', secondaryColor: '#fdf2f8', size: 200, strokeWidth: 5, barHeight: 8, textColor: '#9d5fa0', fontSize: '0.9rem', fontWeight: 400, fontFamily: 'system-ui, sans-serif', letterSpacing: '0.03em', lineHeight: 1.6 },
+  },
+  {
+    // linear · loop · scroll · under · green mono
+    name: 'Terminal',
+    language: 'en',
+    builtIn: onlyDicts('data', 'work'),
+    showGraphic: true, type: 'linear', loop: true, speed: 1.5, advancement: 0,
+    showText: true, textTransition: 'scroll-down', textPosition: 'under', textTime: 1800, transitionTime: 200,
+    style: { primaryColor: '#22c55e', secondaryColor: '#14532d', size: 220, strokeWidth: 3, barHeight: 5, textColor: '#4ade80', fontSize: '0.8rem', fontWeight: 400, fontFamily: "'Courier New', monospace", letterSpacing: '0.05em', lineHeight: 1.4 },
+  },
+  {
+    // circle · loop · fade · under · slow slate
+    name: 'Zen',
+    language: 'en',
+    builtIn: onlyDicts('environment', 'society'),
+    showGraphic: true, type: 'circle', loop: true, speed: 0.5, advancement: 0,
+    showText: true, textTransition: 'fade', textPosition: 'under', textTime: 3500, transitionTime: 700,
+    style: { primaryColor: '#94a3b8', secondaryColor: '#f1f5f9', size: 80, strokeWidth: 2, barHeight: 8, textColor: '#64748b', fontSize: '0.85rem', fontWeight: 300, fontFamily: '', letterSpacing: '0.08em', lineHeight: 1.8 },
+  },
+];
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function HonestAILoaderDemo() {
@@ -59,6 +177,7 @@ export default function HonestAILoaderDemo() {
   const [type,         setType]         = useState<LoaderType>('circle');
   const [loop,         setLoop]         = useState(true);
   const [advancement,  setAdvancement]  = useState(0);
+  const [speed,        setSpeed]        = useState(1);
 
   // Text
   const [showText,       setShowText]       = useState(true);
@@ -84,6 +203,28 @@ export default function HonestAILoaderDemo() {
 
   const setS = <K extends keyof StyleOptions>(k: K, v: StyleOptions[K]) =>
     setStyle(prev => ({ ...prev, [k]: v }));
+
+  // Presets
+  const [selectedPreset, setSelectedPreset] = useState<string>('Default');
+
+  const applyPreset = (name: string) => {
+    const p = PRESETS.find(x => x.name === name);
+    if (!p) return;
+    setSelectedPreset(name);
+    setLanguage(p.language);
+    setBuiltIn(p.builtIn);
+    setShowGraphic(p.showGraphic);
+    setType(p.type);
+    setLoop(p.loop);
+    setSpeed(p.speed);
+    setAdvancement(p.advancement);
+    setShowText(p.showText);
+    setTextTransition(p.textTransition);
+    setTextPosition(p.textPosition);
+    setTextTime(p.textTime);
+    setTransitionTime(p.transitionTime);
+    setStyle(p.style);
+  };
 
   // ── Derive HonestAILoader props ───────────────────────────────────────────
 
@@ -147,6 +288,7 @@ export default function HonestAILoaderDemo() {
     if (type !== 'circle')             props.push(`  type="${type}"`);
     if (!loop)                         props.push('  loop={false}');
     if (!loop && advancement !== 0)    props.push(`  advancement={${advancement}}`);
+    if (loop && speed !== 1)           props.push(`  speed={${speed}}`);
     if (!showText)                     props.push('  showText={false}');
     if (language !== 'en')             props.push(`  language="${language}"`);
 
@@ -196,11 +338,11 @@ export default function HonestAILoaderDemo() {
   return (
     <div style={pageStyle}>
 
-      {/* ══ LEFT — Dictionary panel ══════════════════════════════════════════ */}
-      <aside style={leftStyle}>
+      {/* ══ LEFT — Controls ═════════════════════════════════════════════════ */}
+      <div style={controlsColStyle}>
 
-        {/* Language switcher */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+        {/* Title + language switcher */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={sectionTitle}>HonestAILoader</span>
           <div style={{ display: 'flex', gap: '0.25rem' }}>
             {(['it', 'en'] as const).map(lang => (
@@ -210,6 +352,148 @@ export default function HonestAILoaderDemo() {
             ))}
           </div>
         </div>
+
+        {/* Preset selector */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ ...legendStyle, flexShrink: 0 }}>Preset</span>
+          <select
+            style={{ ...selStyle, flex: 1 }}
+            value={selectedPreset}
+            onChange={e => applyPreset(e.target.value)}
+          >
+            {PRESETS.map(p => (
+              <option key={p.name} value={p.name}>{p.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <fieldset style={fieldsetStyle}>
+          <legend style={legendStyle}>Graphic</legend>
+          <FRow label="showGraphic"><Toggle value={showGraphic} onChange={setShowGraphic} /></FRow>
+          <FRow label="type">
+            <select style={selStyle} value={type} onChange={e => setType(e.target.value as LoaderType)}>
+              <option value="circle">circle</option>
+              <option value="linear">linear</option>
+            </select>
+          </FRow>
+          <FRow label="loop"><Toggle value={loop} onChange={setLoop} /></FRow>
+          {loop && (
+            <FRow label="speed">
+              <Slider min={0.25} max={4} step={0.25} value={speed} onChange={setSpeed}
+                display={`${speed}×`} />
+            </FRow>
+          )}
+          {!loop && (
+            <FRow label="advancement">
+              <Slider min={0} max={1} step={0.01} value={advancement} onChange={setAdvancement}
+                display={`${Math.round(advancement * 100)}%`} />
+            </FRow>
+          )}
+        </fieldset>
+
+        <fieldset style={fieldsetStyle}>
+          <legend style={legendStyle}>Text</legend>
+          <FRow label="showText"><Toggle value={showText} onChange={setShowText} /></FRow>
+          <FRow label="textTransition">
+            <select style={selStyle} value={textTransition} onChange={e => setTextTransition(e.target.value as TextTransition)}>
+              <option value="fade">fade</option>
+              <option value="scroll-up">scroll-up</option>
+              <option value="scroll-down">scroll-down</option>
+              <option value="scroll-left">scroll-left</option>
+              <option value="scroll-right">scroll-right</option>
+            </select>
+          </FRow>
+          <FRow label="textPosition">
+            <select style={selStyle} value={textPosition} onChange={e => setTextPosition(e.target.value as TextPosition)}>
+              {['top','bottom','left','right','over','under'].map(v => <option key={v} value={v}>{v}</option>)}
+            </select>
+          </FRow>
+          <FRow label="textTime">
+            <Slider min={500} max={6000} step={100} value={textTime} onChange={setTextTime} display={`${textTime}ms`} />
+          </FRow>
+          <FRow label="transitionTime">
+            <Slider min={50} max={1000} step={50} value={transitionTime} onChange={setTransitionTime} display={`${transitionTime}ms`} />
+          </FRow>
+        </fieldset>
+
+        <fieldset style={fieldsetStyle}>
+          <legend style={legendStyle}>Style</legend>
+          <FRow label="primaryColor"><input type="color" value={style.primaryColor} onChange={e => setS('primaryColor', e.target.value)} /></FRow>
+          <FRow label="secondaryColor"><input type="color" value={style.secondaryColor} onChange={e => setS('secondaryColor', e.target.value)} /></FRow>
+          <FRow label="size"><Slider min={40} max={300} step={4} value={style.size!} onChange={v => setS('size', v)} display={`${style.size}px`} /></FRow>
+          {type === 'circle' && <FRow label="strokeWidth"><Slider min={1} max={20} step={1} value={style.strokeWidth!} onChange={v => setS('strokeWidth', v)} display={`${style.strokeWidth}px`} /></FRow>}
+          {type === 'linear' && <FRow label="barHeight"><Slider min={2} max={32} step={1} value={style.barHeight!} onChange={v => setS('barHeight', v)} display={`${style.barHeight}px`} /></FRow>}
+          <FRow label="textColor"><input type="color" value={style.textColor} onChange={e => setS('textColor', e.target.value)} /></FRow>
+          <FRow label="fontSize">
+            <Slider min={10} max={24} step={0.5} value={parseFloat(style.fontSize ?? '14')}
+              onChange={v => setS('fontSize', `${v}px`)} display={style.fontSize!} />
+          </FRow>
+          <FRow label="fontWeight">
+            <select style={selStyle} value={String(style.fontWeight)} onChange={e => setS('fontWeight', Number(e.target.value))}>
+              {[100,200,300,400,500,600,700,800,900].map(w => <option key={w} value={w}>{w}</option>)}
+            </select>
+          </FRow>
+          <FRow label="fontFamily">
+            <select style={{ ...selStyle, maxWidth: 120 }} value={style.fontFamily} onChange={e => setS('fontFamily', e.target.value)}>
+              <option value="">inherit</option>
+              <option value="monospace">monospace</option>
+              <option value="Georgia, serif">serif</option>
+              <option value="system-ui, sans-serif">system-ui</option>
+              <option value="'Courier New', monospace">Courier New</option>
+            </select>
+          </FRow>
+          <FRow label="letterSpacing">
+            <Slider min={-2} max={10} step={0.5} value={parseFloat(style.letterSpacing ?? '0')}
+              onChange={v => setS('letterSpacing', `${v}px`)} display={style.letterSpacing!} />
+          </FRow>
+          <FRow label="lineHeight">
+            <Slider min={1} max={3} step={0.1} value={Number(style.lineHeight)}
+              onChange={v => setS('lineHeight', v)} display={Number(style.lineHeight).toFixed(1)} />
+          </FRow>
+        </fieldset>
+
+      </div>
+
+      {/* ══ MIDDLE — Preview (top) + Code (bottom) ═══════════════════════════ */}
+      <div style={rightColStyle}>
+
+        {/* Preview */}
+        <div style={previewStyle}>
+          <HonestAILoader
+            showGraphic={showGraphic}
+            type={type}
+            loop={loop}
+            advancement={advancement}
+            speed={speed}
+            showText={showText}
+            language={language}
+            dictionaries={activeDicts}
+            customDictionaries={customDictObjs.length ? customDictObjs : undefined}
+            dictionaryProbabilities={dictProbs}
+            customDictionaryProbabilities={customProbs.length ? customProbs : undefined}
+            textTime={textTime}
+            textTransition={textTransition}
+            transitionTime={transitionTime}
+            textPosition={textPosition}
+            styleOptions={style}
+          />
+        </div>
+
+        {/* Generated code */}
+        <div style={codePanelStyle}>
+          <div style={codeHeaderStyle}>
+            <span style={legendStyle}>Generated code</span>
+            <button onClick={copyCode} style={copyCodeBtnStyle}>
+              {codeCopied ? '✓ Copied' : 'Copy'}
+            </button>
+          </div>
+          <pre style={codeStyle}>{generateCode()}</pre>
+        </div>
+
+      </div>
+
+      {/* ══ RIGHT — Dictionary panel ═════════════════════════════════════════ */}
+      <aside style={leftStyle}>
 
         {/* Built-in dictionaries */}
         <p style={sectionLabel}>Built-in dictionaries</p>
@@ -306,136 +590,17 @@ export default function HonestAILoaderDemo() {
         )}
       </aside>
 
-      {/* ══ MIDDLE — Controls ════════════════════════════════════════════════ */}
-      <div style={controlsColStyle}>
-
-        <fieldset style={fieldsetStyle}>
-          <legend style={legendStyle}>Graphic</legend>
-          <FRow label="showGraphic"><Toggle value={showGraphic} onChange={setShowGraphic} /></FRow>
-          <FRow label="type">
-            <select style={selStyle} value={type} onChange={e => setType(e.target.value as LoaderType)}>
-              <option value="circle">circle</option>
-              <option value="linear">linear</option>
-            </select>
-          </FRow>
-          <FRow label="loop"><Toggle value={loop} onChange={setLoop} /></FRow>
-          {!loop && (
-            <FRow label="advancement">
-              <Slider min={0} max={1} step={0.01} value={advancement} onChange={setAdvancement}
-                display={`${Math.round(advancement * 100)}%`} />
-            </FRow>
-          )}
-        </fieldset>
-
-        <fieldset style={fieldsetStyle}>
-          <legend style={legendStyle}>Text</legend>
-          <FRow label="showText"><Toggle value={showText} onChange={setShowText} /></FRow>
-          <FRow label="textTransition">
-            <select style={selStyle} value={textTransition} onChange={e => setTextTransition(e.target.value as TextTransition)}>
-              <option value="fade">fade</option>
-              <option value="scroll">scroll</option>
-            </select>
-          </FRow>
-          <FRow label="textPosition">
-            <select style={selStyle} value={textPosition} onChange={e => setTextPosition(e.target.value as TextPosition)}>
-              {['top','bottom','left','right','over','under'].map(v => <option key={v} value={v}>{v}</option>)}
-            </select>
-          </FRow>
-          <FRow label="textTime">
-            <Slider min={500} max={6000} step={100} value={textTime} onChange={setTextTime} display={`${textTime}ms`} />
-          </FRow>
-          <FRow label="transitionTime">
-            <Slider min={50} max={1000} step={50} value={transitionTime} onChange={setTransitionTime} display={`${transitionTime}ms`} />
-          </FRow>
-        </fieldset>
-
-        <fieldset style={fieldsetStyle}>
-          <legend style={legendStyle}>Style</legend>
-          <FRow label="primaryColor"><input type="color" value={style.primaryColor} onChange={e => setS('primaryColor', e.target.value)} /></FRow>
-          <FRow label="secondaryColor"><input type="color" value={style.secondaryColor} onChange={e => setS('secondaryColor', e.target.value)} /></FRow>
-          <FRow label="size"><Slider min={40} max={300} step={4} value={style.size!} onChange={v => setS('size', v)} display={`${style.size}px`} /></FRow>
-          {type === 'circle' && <FRow label="strokeWidth"><Slider min={1} max={20} step={1} value={style.strokeWidth!} onChange={v => setS('strokeWidth', v)} display={`${style.strokeWidth}px`} /></FRow>}
-          {type === 'linear' && <FRow label="barHeight"><Slider min={2} max={32} step={1} value={style.barHeight!} onChange={v => setS('barHeight', v)} display={`${style.barHeight}px`} /></FRow>}
-          <FRow label="textColor"><input type="color" value={style.textColor} onChange={e => setS('textColor', e.target.value)} /></FRow>
-          <FRow label="fontSize">
-            <Slider min={10} max={24} step={0.5} value={parseFloat(style.fontSize ?? '14')}
-              onChange={v => setS('fontSize', `${v}px`)} display={style.fontSize!} />
-          </FRow>
-          <FRow label="fontWeight">
-            <select style={selStyle} value={String(style.fontWeight)} onChange={e => setS('fontWeight', Number(e.target.value))}>
-              {[100,200,300,400,500,600,700,800,900].map(w => <option key={w} value={w}>{w}</option>)}
-            </select>
-          </FRow>
-          <FRow label="fontFamily">
-            <select style={{ ...selStyle, maxWidth: 120 }} value={style.fontFamily} onChange={e => setS('fontFamily', e.target.value)}>
-              <option value="">inherit</option>
-              <option value="monospace">monospace</option>
-              <option value="Georgia, serif">serif</option>
-              <option value="system-ui, sans-serif">system-ui</option>
-              <option value="'Courier New', monospace">Courier New</option>
-            </select>
-          </FRow>
-          <FRow label="letterSpacing">
-            <Slider min={-2} max={10} step={0.5} value={parseFloat(style.letterSpacing ?? '0')}
-              onChange={v => setS('letterSpacing', `${v}px`)} display={style.letterSpacing!} />
-          </FRow>
-          <FRow label="lineHeight">
-            <Slider min={1} max={3} step={0.1} value={Number(style.lineHeight)}
-              onChange={v => setS('lineHeight', v)} display={Number(style.lineHeight).toFixed(1)} />
-          </FRow>
-        </fieldset>
-
-      </div>
-
-      {/* ══ RIGHT — Preview (top) + Code (bottom) ════════════════════════════ */}
-      <div style={rightColStyle}>
-
-        {/* Preview */}
-        <div style={previewStyle}>
-          <HonestAILoader
-            showGraphic={showGraphic}
-            type={type}
-            loop={loop}
-            advancement={advancement}
-            showText={showText}
-            language={language}
-            dictionaries={activeDicts}
-            customDictionaries={customDictObjs.length ? customDictObjs : undefined}
-            dictionaryProbabilities={dictProbs}
-            customDictionaryProbabilities={customProbs.length ? customProbs : undefined}
-            textTime={textTime}
-            textTransition={textTransition}
-            transitionTime={transitionTime}
-            textPosition={textPosition}
-            styleOptions={style}
-          />
-        </div>
-
-        {/* Generated code */}
-        <div style={codePanelStyle}>
-          <div style={codeHeaderStyle}>
-            <span style={legendStyle}>Generated code</span>
-            <button onClick={copyCode} style={copyCodeBtnStyle}>
-              {codeCopied ? '✓ Copied' : 'Copy'}
-            </button>
-          </div>
-          <pre style={codeStyle}>{generateCode()}</pre>
-        </div>
-
-      </div>
-
       {/* ══ FOOTER ═══════════════════════════════════════════════════════════ */}
       <footer style={footerStyle}>
         <span>v{version}</span>
         <span style={{ color: '#d1d5db' }}>·</span>
-        <a
-          href="https://creativecommons.org/licenses/by/4.0/"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={footerLinkStyle}
-        >
-          CC BY 4.0
-        </a>
+        <span>
+          This work is licensed under{' '}
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" style={footerLinkStyle}>CC BY-NC-SA 4.0</a>
+          {(['cc','by','nc','sa'] as const).map(icon => (
+            <img key={icon} src={`https://mirrors.creativecommons.org/presskit/icons/${icon}.svg`} alt="" style={{ maxWidth: '1em', maxHeight: '1em', marginLeft: '.2em', verticalAlign: 'middle' }} />
+          ))}
+        </span>
         <span style={{ color: '#d1d5db' }}>·</span>
         <a
           href="https://github.com/sterte/honestailoader"
@@ -482,7 +647,7 @@ function Slider({ min, max, step, value, onChange, display }: {
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
       <input type="range" min={min} max={max} step={step} value={value}
         onChange={e => onChange(Number(e.target.value))}
-        style={{ width: 80, cursor: 'pointer' }} />
+        style={{ width: 70, cursor: 'pointer' }} />
       <span style={{ fontSize: '0.7rem', color: '#6b7280', minWidth: 44, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
         {display}
       </span>
@@ -494,7 +659,7 @@ function Slider({ min, max, step, value, onChange, display }: {
 
 const pageStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '300px 280px 1fr',
+  gridTemplateColumns: '280px 1fr 300px',
   gridTemplateRows: '1fr auto',
   height: '100vh',
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -504,15 +669,15 @@ const pageStyle: React.CSSProperties = {
 };
 
 const leftStyle: React.CSSProperties = {
-  borderRight: '1px solid #e5e7eb',
-  padding: '1.25rem',
+  borderLeft: '1px solid #e5e7eb',
+  padding: '.5rem',
   overflowY: 'auto',
   background: '#fafafa',
 };
 
 const controlsColStyle: React.CSSProperties = {
   borderRight: '1px solid #e5e7eb',
-  padding: '1.25rem',
+  padding: '.5rem',
   overflowY: 'auto',
   overflowX: 'hidden',
   background: '#fafafa',

@@ -16,6 +16,7 @@ const HonestAILoader: React.FC<HonestAILoaderProps> = ({
   type = 'circle',
   loop = true,
   advancement = 0,
+  speed = 1,
   showText = true,
   language = 'en',
   dictionaries = ['environment'],
@@ -80,7 +81,7 @@ const HonestAILoader: React.FC<HonestAILoaderProps> = ({
     .join(' ');
 
   const graphic = showGraphic && (
-    <GraphicLoader type={type} loop={loop} advancement={clampedAdvancement} styleOptions={styleOptions} />
+    <GraphicLoader type={type} loop={loop} advancement={clampedAdvancement} speed={speed} styleOptions={styleOptions} />
   );
 
   const text = showText && (

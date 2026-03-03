@@ -11,7 +11,7 @@
 /* Spinner: rotate the whole SVG element around its dynamic centre */
 .spinnerSvg {
   display: block;
-  animation: spin 1.2s linear infinite;
+  animation: spin var(--spin-duration, 1.2s) linear infinite;
   transform-origin: var(--svg-cx, 50px) var(--svg-cx, 50px);
 }
 

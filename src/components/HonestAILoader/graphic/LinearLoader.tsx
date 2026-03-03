@@ -6,11 +6,12 @@ interface LinearLoaderProps {
   loop: boolean;
   /** Progress 0..1 (pre-clamped by parent) */
   advancement: number;
+  speed: number;
   styleOptions?: StyleOptions;
 }
 
 /** Pill-shaped linear loader. In loop mode a shimmer bounces; in determinate mode a bar grows. */
-const LinearLoader: React.FC<LinearLoaderProps> = ({ loop, advancement, styleOptions }) => {
+const LinearLoader: React.FC<LinearLoaderProps> = ({ loop, advancement, speed, styleOptions }) => {
   const width     = styleOptions?.size      ?? 240;
   const height    = styleOptions?.barHeight ?? 8;
   const primary   = styleOptions?.primaryColor   ?? '#6366f1';
@@ -26,6 +27,7 @@ const LinearLoader: React.FC<LinearLoaderProps> = ({ loop, advancement, styleOpt
         backgroundColor: secondary,
         // expose primary as CSS variable so shimmer gradient can reference it
         '--primary-color': primary,
+        '--shimmer-duration': `${1.5 / Math.max(speed, 0.01)}s`,
       } as React.CSSProperties}
     >
       {loop ? (

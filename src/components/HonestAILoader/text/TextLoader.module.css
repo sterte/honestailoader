@@ -1,11 +1,28 @@
+/* Fixed-height wrapper — reserves exactly 2 lines so layout never reflows
+   when a phrase wraps. Height is driven by CSS custom properties so it
+   scales automatically with any font-size or line-height override.
+   overflow:hidden clips text during horizontal scroll transitions. */
+.textWrapper {
+  /* Fixed dimensions so phrase changes never resize the slot and shift the
+     graphic. Width uses a CSS var so callers can override via inline style. */
+  width: var(--text-slot-width, 300px);
+  height: calc(var(--text-line-height, 1.5) * 2em);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
 .text {
   margin: 0;
   font-size: 0.9rem;
   color: #6b7280;
   text-align: center;
-  max-width: 300px;
-  min-height: 1.5em;
+  width: 100%;
   line-height: 1.5;
+  opacity: 0; /* default invisible — phase classes/animations bring it to 1,
+                  so the gap between animations never flashes */
   transition-property: opacity, transform;
   transition-timing-function: ease;
   transition-duration: var(--transition-time, 300ms);
@@ -24,18 +41,31 @@
   opacity: 0;
 }
 
-/* ── Scroll transition ── */
-.scroll_in {
-  opacity: 0;
-  transform: translateY(10px);
-}
+/* ── Scroll transitions — animation-based so each phase always starts from
+   its explicit keyframe, preventing the browser from interpolating between
+   the previous out-position and the new in-position (which caused flicker). ── */
 
-.scroll_visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.scroll-up_in      { animation: kf-scroll-up-in      var(--transition-time, 300ms) ease both; }
+.scroll-up_visible { opacity: 1; transform: translateY(0); animation: none; }
+.scroll-up_out     { animation: kf-scroll-up-out     var(--transition-time, 300ms) ease both; }
 
-.scroll_out {
-  opacity: 0;
-  transform: translateY(-10px);
-}
+.scroll-down_in      { animation: kf-scroll-down-in    var(--transition-time, 300ms) ease both; }
+.scroll-down_visible { opacity: 1; transform: translateY(0); animation: none; }
+.scroll-down_out     { animation: kf-scroll-down-out   var(--transition-time, 300ms) ease both; }
+
+.scroll-left_in      { animation: kf-scroll-left-in    var(--transition-time, 300ms) ease both; }
+.scroll-left_visible { opacity: 1; transform: translateX(0); animation: none; }
+.scroll-left_out     { animation: kf-scroll-left-out   var(--transition-time, 300ms) ease both; }
+
+.scroll-right_in      { animation: kf-scroll-right-in  var(--transition-time, 300ms) ease both; }
+.scroll-right_visible { opacity: 1; transform: translateX(0); animation: none; }
+.scroll-right_out     { animation: kf-scroll-right-out var(--transition-time, 300ms) ease both; }
+
+@keyframes kf-scroll-up-in    { from { opacity: 0; transform: translateY(40%);   } to { opacity: 1; transform: translateY(0); } }
+@keyframes kf-scroll-up-out   { from { opacity: 1; transform: translateY(0);     } to { opacity: 0; transform: translateY(-40%); } }
+@keyframes kf-scroll-down-in  { from { opacity: 0; transform: translateY(-40%);  } to { opacity: 1; transform: translateY(0); } }
+@keyframes kf-scroll-down-out { from { opacity: 1; transform: translateY(0);     } to { opacity: 0; transform: translateY(40%); } }
+@keyframes kf-scroll-left-in  { from { opacity: 0; transform: translateX(60%);   } to { opacity: 1; transform: translateX(0); } }
+@keyframes kf-scroll-left-out { from { opacity: 1; transform: translateX(0);     } to { opacity: 0; transform: translateX(-60%); } }
+@keyframes kf-scroll-right-in  { from { opacity: 0; transform: translateX(-60%); } to { opacity: 1; transform: translateX(0); } }
+@keyframes kf-scroll-right-out { from { opacity: 1; transform: translateX(0);    } to { opacity: 0; transform: translateX(60%); } }
